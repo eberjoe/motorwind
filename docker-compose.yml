@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  postgres-service:
+    image: postgres:14
+    container_name: db-postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: motorwind
+      POSTGRES_USER: motorwind_dev
+      POSTGRES_PASSWORD: motorwind_dev_password
+    volumes:
+      - /var/lib/postgres
+      - ./dbscripts/postgres:/docker-entrypoint-initdb.d
