@@ -1,0 +1,13 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create-drop
+
+  datasource:
+    url: ${JDBC_DATABASE_URL}_test
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
