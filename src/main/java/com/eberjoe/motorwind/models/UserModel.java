@@ -1,6 +1,7 @@
 package com.eberjoe.motorwind.models;
 
-import java.util.Objects;
+import static com.eberjoe.motorwind.models.constants.Role.TECHNICIAN;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +20,9 @@ import lombok.Setter;
 @Table(name = "user_model")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserModel {
 
   @Id
@@ -37,25 +42,19 @@ public class UserModel {
   @NotBlank
   private String password;
 
-  private String role;
+  @Builder.Default
+  private String role = TECHNICIAN.toString();
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    UserModel userModel = (UserModel) o;
-    return getId().equals(userModel.getId()) && getFullName().equals(userModel.getFullName()) && getEmail().equals(
-        userModel.getEmail()) && getPassword().equals(userModel.getPassword()) && Objects.equals(getRole(),
-        userModel.getRole());
-  }
+  @Builder.Default
+  private Boolean accountNonExpired = true;
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(getId(), getFullName(), getEmail(), getPassword(), getRole());
-  }
+  @Builder.Default
+  private Boolean accountNonLocked = true;
+
+  @Builder.Default
+  private Boolean credentialsNonExpired = true;
+
+  @Builder.Default
+  private Boolean enabled = true;
 
 }

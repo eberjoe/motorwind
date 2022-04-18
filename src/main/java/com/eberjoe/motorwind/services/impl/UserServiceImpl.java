@@ -1,5 +1,6 @@
 package com.eberjoe.motorwind.services.impl;
 
+import com.eberjoe.motorwind.exceptions.ErrorOnSaveException;
 import com.eberjoe.motorwind.models.UserModel;
 import com.eberjoe.motorwind.repositories.UserRepository;
 import com.eberjoe.motorwind.services.UserService;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +34,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   public UserModel save(UserModel user) {
     log.info("Saving new user to the database");
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    user.setRole("ROLE_USER");
-    return userRepository.save(user);
+    try {
+      return userRepository.save(user);
+    } catch (Exception exception) {
+      log.error("A problem occurred while trying to save a new user. Error: {}", exception.getMessage());
+      throw new ErrorOnSaveException("Could not save user", exception);
+    }
   }
 
   @Override
