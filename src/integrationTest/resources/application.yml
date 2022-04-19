@@ -8,6 +8,6 @@ spring:
       ddl-auto: create-drop
 
   datasource:
-    url: ${JDBC_DATABASE_URL}_test
+    url: ${JDBC_DATABASE_URL_TEST}
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
